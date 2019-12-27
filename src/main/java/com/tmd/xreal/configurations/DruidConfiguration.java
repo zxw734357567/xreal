@@ -20,22 +20,62 @@ import java.sql.SQLException;
  * @date 2019-12-14 16:11
  */
 @Configuration
+@ConfigurationProperties(prefix = "druid.login")
 public class DruidConfiguration {
     private  final Logger logger= LoggerFactory.getLogger(DruidConfiguration.class);
+
+
+          private   String loginUsername;
+          private   String loginPassword;
+          private   String resetEnable;
+          private   String allow;
+
+        public String getLoginUsername() {
+            return loginUsername;
+        }
+
+        public void setLoginUsername(String loginUsername) {
+            this.loginUsername = loginUsername;
+        }
+
+        public String getLoginPassword() {
+            return loginPassword;
+        }
+
+        public void setLoginPassword(String loginPassword) {
+            this.loginPassword = loginPassword;
+        }
+
+        public String getResetEnable() {
+            return resetEnable;
+        }
+
+        public void setResetEnable(String resetEnable) {
+            this.resetEnable = resetEnable;
+        }
+
+        public String getAllow() {
+            return allow;
+        }
+
+        public void setAllow(String allow) {
+            this.allow = allow;
+        }
 
     @Bean
     public ServletRegistrationBean druidServlet() {
         logger.info("init Druid Servlet Configuration ");
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
         // IP白名单
-        servletRegistrationBean.addInitParameter("allow", "127.0.0.1");
+
+        servletRegistrationBean.addInitParameter("allow", allow);
         // IP黑名单(共同存在时，deny优先于allow)
        // servletRegistrationBean.addInitParameter("deny", "192.168.1.100");
         //控制台管理用户
-        servletRegistrationBean.addInitParameter("loginUsername", "admin");
-        servletRegistrationBean.addInitParameter("loginPassword", "123");
+        servletRegistrationBean.addInitParameter("loginUsername", loginUsername);
+        servletRegistrationBean.addInitParameter("loginPassword", loginPassword);
         //是否能够重置数据 禁用HTML页面上的“Reset All”功能
-        servletRegistrationBean.addInitParameter("resetEnable", "false");
+        servletRegistrationBean.addInitParameter("resetEnable", resetEnable);
         return servletRegistrationBean;
     }
 
