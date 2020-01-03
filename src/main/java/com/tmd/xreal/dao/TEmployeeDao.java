@@ -1,7 +1,11 @@
 package com.tmd.xreal.dao;
 
 import com.tmd.xreal.pojo.TEmployee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -16,5 +20,28 @@ public interface TEmployeeDao extends JpaRepository<TEmployee,Long> {
     public List<TEmployee> findByName(String name);
 
     public  List<TEmployee> findByNameContaining(String name);
+
+
+    //分页
+
+
+    //修改
+    @Modifying
+    @Query("update TEmployee set name = ?1 where id=?2")
+    public void updateNameById(String name ,long id);
+
+
+    //计数
+    @Query("select count(distinct id) from TEmployee ")
+    public long conutForTotal();
+
+
+
+    //记住建表语句是区分大小写的,就是大小写敏感,这个是基于建表语句ut
+    @Query(value = "select * from t_emloyee ",countQuery = "select count (*) from t_emloyee ",nativeQuery = true)
+    public Page<TEmployee> findByNativeSql(Pageable pageable);
+
+
+
 
 }

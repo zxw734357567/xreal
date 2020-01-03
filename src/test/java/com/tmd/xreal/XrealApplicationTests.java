@@ -20,6 +20,16 @@ public class XrealApplicationTests {
         System.out.println("哈哈哈");
     }
 
+    @Test
+    public void get(){
+        gt(null,1);
+    }
+
+    public void gt(Integer a,int b){
+        System.out.println(a);
+        System.out.println(b);
+    }
+
 
 
 

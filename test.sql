@@ -9,3 +9,15 @@ create table t_emloyee(
 
 -- 插入猪八戒
 INSERT INTO jojo.t_emloyee (id, name, address, birthday, salary) VALUES (1,'猪八戒','高老庄',STR_TO_DATE('1625-09-08 16:45:23','%Y-%m-%d %H:%i:%s'),10000); commit;
+
+create table if not exists  t_order(
+  id int primary key ,
+    t_employ_id int ,
+  name varchar(32)  ,
+  price double
+) engine innoDB  collate =utf8_bin;
+
+insert t_order values (1,1,'六尺钉耙',8999.0);
+insert t_order values (2,2,'金箍棒',45000.0);
+insert t_order values (3,2,'紧箍咒',8848.0);
+insert t_order values (4,3,'美人计',8848.0);commit ;
