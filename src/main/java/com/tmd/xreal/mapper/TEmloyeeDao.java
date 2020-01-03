@@ -1,5 +1,6 @@
 package com.tmd.xreal.mapper;
 
+import com.tmd.xreal.dto.TEmployContainOrder;
 import com.tmd.xreal.entities.TEmloyee;
 import com.tmd.xreal.entities.TEmloyeeExample;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.apache.ibatis.annotations.Select;
 public interface TEmloyeeDao {
 
     @Select("select * from t_emloyee where id=#{sddsd}")
-
     TEmloyee selectById(@Param("sddsd") Integer id);
 
     long countByExample(TEmloyeeExample example);
@@ -27,6 +27,7 @@ public interface TEmloyeeDao {
     TEmloyee selectByPrimaryKey(Integer id);
 
     List<TEmloyee> selectAll();
+    List<TEmployContainOrder> selectTemployAndOrders();
 
     int updateByExampleSelective(@Param("record") TEmloyee record, @Param("example") TEmloyeeExample example);
 

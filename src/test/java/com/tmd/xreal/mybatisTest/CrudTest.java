@@ -3,7 +3,9 @@ package com.tmd.xreal.mybatisTest;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tmd.xreal.dto.TEmployContainOrder;
 import com.tmd.xreal.entities.TEmloyee;
+import com.tmd.xreal.entities.TOrder;
 import com.tmd.xreal.mapper.TEmloyeeDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,6 +74,18 @@ public class CrudTest {
         System.out.println(insert);
     }
 
+
+    //关联查询
+
+    @Test
+    public void selectTemployAndOrders(){
+        List<TEmployContainOrder> tEmployContainOrders = tEmloyeeDao.selectTemployAndOrders();
+        tEmployContainOrders.forEach((item)-> {
+            System.out.println(item.toString());
+            List<TOrder> tOrders = item.gettOrders();
+            tOrders.forEach((i)-> System.out.println(i));
+        });
+    }
 
 
 }

@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tmd.xreal.mapper.TEmloyeeDao">
-  <resultMap id="BaseResultMap" type="com.tmd.xreal.entities.TEmloyee">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="salary" jdbcType="DOUBLE" property="salary" />
-  </resultMap>
-  <resultMap id="TOrders" type="com.tmd.xreal.entities.TOrder">
+<mapper namespace="com.tmd.xreal.mapper.TOrderDao">
+  <resultMap id="BaseResultMap" type="com.tmd.xreal.entities.TOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="t_employ_id" jdbcType="INTEGER" property="tEmployId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="price" jdbcType="DOUBLE" property="price" />
-  </resultMap>
-  <resultMap id="EmployeeContainOrder" type="com.tmd.xreal.dto.TEmployContainOrder">
-    <id column="t_id" jdbcType="INTEGER" property="id" />
-    <result column="t_name" jdbcType="VARCHAR" property="name" />
-    <result column="t_address" jdbcType="VARCHAR" property="address" />
-    <result column="t_birthday" jdbcType="DATE" property="birthday" />
-    <result column="t_salary" jdbcType="DOUBLE" property="salary" />
-    <association property="tOrders" resultMap="TOrders" columnPrefix="o_"></association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, address, birthday, salary
+    id, t_employ_id, `name`, price
   </sql>
-  <select id="selectByExample" parameterType="com.tmd.xreal.entities.TEmloyeeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.tmd.xreal.entities.TOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_emloyee
+    from t_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,94 +85,70 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_emloyee
+    from t_order
     where id = #{id,jdbcType=INTEGER}
   </select>
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_emloyee
-
-  </select>
-
-  <select id="selectTemployAndOrders" resultMap="EmployeeContainOrder">
-    select
-     t.id t_id , t.`name` t_name , t.address t_address, t.birthday t_birthday, t.salary t_salary,
-     o.id o_id, o.t_employ_id o_t_employ_id, o.`name` o_name, o. price o_price
-    from t_emloyee t
-    left join t_order o on t.id=o.t_employ_id
-    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_emloyee
+    delete from t_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.tmd.xreal.entities.TEmloyeeExample">
-    delete from t_emloyee
+  <delete id="deleteByExample" parameterType="com.tmd.xreal.entities.TOrderExample">
+    delete from t_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tmd.xreal.entities.TEmloyee" >
-    insert into t_emloyee (`id`,`name`, address, birthday,
-      salary)
-    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE},
-      #{salary,jdbcType=DOUBLE})
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tmd.xreal.entities.TOrder" useGeneratedKeys="true">
+    insert into t_order (t_employ_id, `name`, price
+      )
+    values (#{tEmployId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tmd.xreal.entities.TEmloyee" >
-    insert into t_emloyee
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tmd.xreal.entities.TOrder" useGeneratedKeys="true">
+    insert into t_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tEmployId != null">
+        t_employ_id,
+      </if>
       <if test="name != null">
         `name`,
       </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="birthday != null">
-        birthday,
-      </if>
-      <if test="salary != null">
-        salary,
+      <if test="price != null">
+        price,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tEmployId != null">
+        #{tEmployId,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null">
-        #{birthday,jdbcType=DATE},
-      </if>
-      <if test="salary != null">
-        #{salary,jdbcType=DOUBLE},
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.tmd.xreal.entities.TEmloyeeExample" resultType="java.lang.Long">
-    select count(*) from t_emloyee
+  <select id="countByExample" parameterType="com.tmd.xreal.entities.TOrderExample" resultType="java.lang.Long">
+    select count(*) from t_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_emloyee
+    update t_order
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.tEmployId != null">
+        t_employ_id = #{record.tEmployId,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         `name` = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=VARCHAR},
-      </if>
-      <if test="record.birthday != null">
-        birthday = #{record.birthday,jdbcType=DATE},
-      </if>
-      <if test="record.salary != null">
-        salary = #{record.salary,jdbcType=DOUBLE},
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null">
@@ -195,40 +156,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_emloyee
+    update t_order
     set id = #{record.id,jdbcType=INTEGER},
+      t_employ_id = #{record.tEmployId,jdbcType=INTEGER},
       `name` = #{record.name,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      birthday = #{record.birthday,jdbcType=DATE},
-      salary = #{record.salary,jdbcType=DOUBLE}
+      price = #{record.price,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tmd.xreal.entities.TEmloyee">
-    update t_emloyee
+  <update id="updateByPrimaryKeySelective" parameterType="com.tmd.xreal.entities.TOrder">
+    update t_order
     <set>
+      <if test="tEmployId != null">
+        t_employ_id = #{tEmployId,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null">
-        birthday = #{birthday,jdbcType=DATE},
-      </if>
-      <if test="salary != null">
-        salary = #{salary,jdbcType=DOUBLE},
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tmd.xreal.entities.TEmloyee">
-    update t_emloyee
-    set `name` = #{name,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=DATE},
-      salary = #{salary,jdbcType=DOUBLE}
+  <update id="updateByPrimaryKey" parameterType="com.tmd.xreal.entities.TOrder">
+    update t_order
+    set t_employ_id = #{tEmployId,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
