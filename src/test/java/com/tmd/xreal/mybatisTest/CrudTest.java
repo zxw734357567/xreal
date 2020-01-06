@@ -87,5 +87,18 @@ public class CrudTest {
         });
     }
 
+    @Test
+    public void selectByLike(){
+        List<TEmloyee> lists = tEmloyeeDao.selectByLikeName("猪八");
+        lists.forEach((item)-> System.out.println(item.toString()));
+    }
+
+    @Test
+    public void selectByTime(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<TEmloyee> list = tEmloyeeDao.selectByTime("猪八戒", LocalDate.parse("1300-01-01",dateTimeFormatter),
+                LocalDate.parse("2000-01-01", dateTimeFormatter));
+        list.forEach(item-> System.out.println(item.toString()));
+    }
 
 }
