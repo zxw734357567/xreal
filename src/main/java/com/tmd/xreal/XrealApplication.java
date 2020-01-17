@@ -9,7 +9,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @MapperScan("com.tmd.xreal.mapper")
-@EnableCaching
 public class XrealApplication {
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.tmd.xreal.controller;
 
+import com.tmd.xreal.aop.formsPreventDuplicateSubmissions.FormsPreventDuplicateSubmissionsAnnotation;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 //@Api(tags = {"测试用"})
 public class XrealController {
 
+
+    @FormsPreventDuplicateSubmissionsAnnotation
     @GetMapping(value = "/getAlll/{id}")
     @ApiOperation(tags = {"get"},value = "测试pathVariable绑定测试",notes = "测试pathVariable绑定测试")
     public void getAll(@PathVariable(name = "id")String id){
@@ -23,5 +26,7 @@ public class XrealController {
     public void getSingleParam(@RequestParam(value = "id",required = false) String cd, @RequestParam(value ="numbers") Integer numbers){
         System.out.println("id==="+cd+"====numbers"+numbers);
     }
+
+
 
 }

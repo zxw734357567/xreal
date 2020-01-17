@@ -21,6 +21,7 @@ public interface TEmloyeeDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(TEmloyee record);
+    int bathInsert(@Param("lists") List<TEmloyee> lists);
 
     int insertSelective(TEmloyee record);
 

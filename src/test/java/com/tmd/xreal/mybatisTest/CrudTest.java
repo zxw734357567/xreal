@@ -11,10 +11,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,4 +104,30 @@ public class CrudTest {
         list.forEach(item-> System.out.println(item.toString()));
     }
 
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void bathInsert(){
+        ArrayList<TEmloyee> tEmloyees = new ArrayList<TEmloyee>();
+        TEmloyee tEmloyee=new TEmloyee();
+        tEmloyee.setName("蜈蚣精");
+        tEmloyee.setAddress("寺庙");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate parse = LocalDate.parse("1200-08-12 23:29:09", dateTimeFormatter);
+        tEmloyee.setBirthday(parse);
+        tEmloyee.setSalary(4000d);
+        tEmloyee.setId(4);
+        tEmloyees.add(tEmloyee);
+        TEmloyee tEmloyee1=new TEmloyee();
+        tEmloyee1.setName("白龙马");
+        tEmloyee1.setAddress("山峰");
+        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate parse1 = LocalDate.parse("1253-08-12 23:29:09", dateTimeFormatter);
+        tEmloyee1.setBirthday(parse1);
+        tEmloyee1.setSalary(8000d);
+        tEmloyee1.setId(5);
+        tEmloyees.add(tEmloyee1);
+        int i = tEmloyeeDao.bathInsert(tEmloyees);
+    }
 }
